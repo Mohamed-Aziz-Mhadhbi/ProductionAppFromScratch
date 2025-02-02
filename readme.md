@@ -9,3 +9,5 @@
  6. If no todos say "no unfinished todos"
  7. Add a todo
  8. Check off todos
+
+## Design :

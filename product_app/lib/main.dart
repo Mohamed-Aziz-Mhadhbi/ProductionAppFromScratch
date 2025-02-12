@@ -1,37 +1,51 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-Future<void> main() async {
-  runApp(const MyApp());
+import 'package:firebase_core/firebase_core.dart';
+
+void main() {
+  runApp(App());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+      theme: ThemeData.dark(),
+      home: FutureBuilder(
+        // Initialize FlutterFire:
+        future: Firebase.initializeApp(),
+        builder: (context, snapshot) {
+          // Check for errors
+          if (snapshot.hasError) {
+            return const Scaffold(body: Center(child: Text("Error")));
+          }
+
+          // Once complete, show your application
+          if (snapshot.connectionState == ConnectionState.done) {
+            return Root();
+          }
+
+          // Otherwise, show something whilst waiting for initialization to complete
+          return const Scaffold(body: Center(child: Text("Loading...")));
+        },
       ),
-      home: const Text('Flutter Demo Home Page'),
     );
   }
 }
 
 class Root extends StatefulWidget {
-  const Root({super.key});
-
   @override
-  State<Root> createState() => _RootState();
+  _RootState createState() => _RootState();
 }
 
 class _RootState extends State<Root> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return StreamBuilder(stream: 
+    );
   }
 }

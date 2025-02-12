@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:product_app/services/auth.dart';
 
 void main() {
   runApp(App());
@@ -45,7 +46,19 @@ class _RootState extends State<Root> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(stream: 
+    return StreamBuilder(
+      stream: Auth(auth: _auth).user,
+      builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          if (snapshot.data?.uid == null) {
+            return Login(auth: _auth, firestore: _firestore);
+          } else {
+            return Home(auth: _auth, firestore: _firestore);
+          }
+        } else {
+          return const Scaffold(body: Center(child: Text("Loading...")));
+        }
+      },
     );
   }
 }

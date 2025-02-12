@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:product_app/screens/login.dart';
 import 'package:product_app/services/auth.dart';
 
 void main() {
@@ -51,7 +52,7 @@ class _RootState extends State<Root> {
       builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           if (snapshot.data?.uid == null) {
-            return Login(auth: _auth, firestore: _firestore);
+            return Login(auth: _auth, firestore: _firestore, key: null,);
           } else {
             return Home(auth: _auth, firestore: _firestore);
           }

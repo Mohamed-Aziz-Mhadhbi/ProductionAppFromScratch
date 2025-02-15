@@ -5,7 +5,7 @@ class Auth {
 
   Auth({required this.auth});
 
-  Stream<User> get user => auth.authStateChanges();
+  Stream<User?> get user => auth.authStateChanges();
 
   Future<String?> createAccount({
     required String email,

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:product_app/screens/Home.dart';
 import 'package:product_app/screens/login.dart';
 import 'package:product_app/services/auth.dart';
 
@@ -36,7 +37,6 @@ class App extends StatelessWidget {
     );
   }
 }
-
 class Root extends StatefulWidget {
   @override
   _RootState createState() => _RootState();
@@ -49,17 +49,27 @@ class _RootState extends State<Root> {
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: Auth(auth: _auth).user,
-      builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           if (snapshot.data?.uid == null) {
-            return Login(auth: _auth, firestore: _firestore, key: null,);
+            return Login(
+              auth: _auth,
+              firestore: _firestore, key: null,
+            );
           } else {
-            return Home(auth: _auth, firestore: _firestore);
+            return Home(
+              auth: _auth,
+              firestore: _firestore, key: null,
+            );
           }
         } else {
-          return const Scaffold(body: Center(child: Text("Loading...")));
+          return const Scaffold(
+            body: Center(
+              child: Text("Loading..."),
+            ),
+          );
         }
-      },
+      }, //Auth stream
     );
   }
 }

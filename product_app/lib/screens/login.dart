@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../services/auth.dart';
 
 class Login extends StatefulWidget {
   final FirebaseAuth auth;
@@ -43,47 +44,47 @@ class _LoginState extends State<Login> {
                 const SizedBox(
                   height: 20,
                 ),
-                // RaisedButton(
-                //   key: const ValueKey("signIn"),
-                //   onPressed: () async {
-                //     final String retVal = await Auth(auth: widget.auth).signIn(
-                //       email: _emailController.text,
-                //       password: _passwordController.text,
-                //     );
-                //     if (retVal == "Success") {
-                //       _emailController.clear();
-                //       _passwordController.clear();
-                //     } else {
-                //       Scaffold.of(context).showSnackBar(
-                //         SnackBar(
-                //           content: Text(retVal),
-                //         ),
-                //       );
-                //     }
-                //   },
-                //   child: const Text("Sign In"),
-                // ),
-                // FlatButton(
-                //   key: const ValueKey("createAccount"),
-                //   onPressed: () async {
-                //     final String retVal =
-                //         await Auth(auth: widget.auth).createAccount(
-                //       email: _emailController.text,
-                //       password: _passwordController.text,
-                //     );
-                //     if (retVal == "Success") {
-                //       _emailController.clear();
-                //       _passwordController.clear();
-                //     } else {
-                //       Scaffold.of(context).showSnackBar(
-                //         SnackBar(
-                //           content: Text(retVal),
-                //         ),
-                //       );
-                //     }
-                //   },
-                //   child: const Text("Create Account"),
-                // )
+                ElevatedButton(
+                  key: const ValueKey("signIn"),
+                  onPressed: () async {
+                    final String? retVal = await Auth(auth: widget.auth).signIn(
+                      email: _emailController.text,
+                      password: _passwordController.text,
+                    );
+                    if (retVal == "Success") {
+                      _emailController.clear();
+                      _passwordController.clear();
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(retVal!),
+                        ),
+                      );
+                    }
+                  },
+                  child: const Text("Sign In"),
+                ),
+                TextButton(
+                  key: const ValueKey("createAccount"),
+                  onPressed: () async {
+                    final String? retVal =
+                        await Auth(auth: widget.auth).createAccount(
+                      email: _emailController.text,
+                      password: _passwordController.text,
+                    );
+                    if (retVal == "Success") {
+                      _emailController.clear();
+                      _passwordController.clear();
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(retVal!),
+                        ),
+                      );
+                    }
+                  },
+                  child: const Text("Create Account"),
+                )
               ],
             );
           }),
